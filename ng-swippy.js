@@ -102,7 +102,7 @@ angular.module('ngSwippy', ['ngTouch'])
 			template: 	'<div class="ng-swippy noselect" style="width: {{width}}; height: {{height}}">'+
 							'<div person="person" swipe-directive="swipe-directive" ng-repeat="person in peopleToShow" class="content-wrapper swipable-card">' +
   								'<div class="card">' +
-    								'<div style="background: url({{person.thumbnail}}) no-repeat 50% 15%" class="photo-item"></div>' +
+    								'<div style="background: url({{person.thumbnail}}) center center / contain no-repeat !important;" class="photo-item"></div>' +
     								'<div class="know-label">{{labelOk ? labelOk : "YES"}}</div>' +
     								'<div class="dontknow-label">{{labelNegative ? labelNegative : "NO"}}</div>' +
   								'</div>' +
@@ -160,7 +160,7 @@ angular.module('ngSwippy', ['ngTouch'])
 							directionHandler = undefined;
 							break;
 					}
-					if (direction){
+					if (directionHandler && direction){
 						directionHandler(person);
 					}
 					scope.people.splice(scope.people.indexOf(person), 1);
@@ -247,7 +247,7 @@ angular.module('ngSwippy', ['ngTouch'])
 								scope.swipeObject.offsetY = coordinates.y - scope.swipeObject.startY;
 
 								var rotateX = scope.swipeObject.offsetX;
-								var opacity = Math.abs(scope.swipeObject.offsetX) / 150;
+								var opacity = Math.abs(scope.swipeObject.offsetX) / 50;
 
 								if (opacity > 1) {
 									opacity = 1;
@@ -285,7 +285,8 @@ angular.module('ngSwippy', ['ngTouch'])
 					end: function(coordinates) {
 						scope.isSwiping = false;
 						if (scope.swipeObject.offsetX === 0 && scope.swipeObject.offsetY === 0 || swipeDirectiveValues.moveBack){
-							expressionHandler();
+                if(expressionHandler)
+							      expressionHandler();
 							return;
 						}
 
